@@ -4,6 +4,26 @@
 
 A secure password reset system implementation using the MERN stack (MongoDB, Express.js, React.js, Node.js) with email verification functionality. This application provides a robust solution for users to safely reset their passwords through email verification.
 
+## Diagram of the Project Workflow
+```mermaid
+flowchart TD
+    A["User Enter Email"] --> B{If user exist in DB}
+    B -->|Yes| C["Generate Random String"]
+    B -->|No| D["Throw Error"]
+    C --> E["Send Email"]
+    D --> F[""End""]
+    E --> F
+    G["User Click the Link in Email"] --> H["Load the Web page"]
+    H --> I["Password the Random String to DB"]
+    I --> J{Check the Random String match with existing random string}
+    J -->|Yes| K["Allow to reset password"]
+    J -->|No| L["Reject"]
+    K --> M["Enter new password"]
+    L --> N[End]
+    M --> O["Change the Password in DB"]
+    O --> N
+```
+
 ## 🚀 Features
 
 - **Secure Password Reset Flow**
