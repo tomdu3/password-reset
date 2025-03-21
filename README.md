@@ -46,11 +46,15 @@ flowchart TD
 
 ### Backend
 
-- Node.js
-- Express.js
-- MongoDB (with Mongoose)
-- Nodemailer for email services
-- JWT for token management
+- [Node.js](https://nodejs.org/en/)
+- [Express.js](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com) (with [Mongoose](https://mongoosejs.com/) for ORM)
+- [Nodemailer](https://nodemailer.com/) for email services
+- [JWT](https://jwt.io/) for token management
+- [Crypto](https://nodejs.org/api/crypto.html) for token generation
+- [Bcrypt](https://www.npmjs.com/package/bcrypt) for password hashing
+
+
 
 ## 📋 Prerequisites
 
