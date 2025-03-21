@@ -33,11 +33,9 @@ const verifyResetToken = async (req, res) => {
     const user = await User.findOne({ resetToken: token, resetTokenExpiry: { $gt: Date.now() } });
 
     if (!user) {
-        return res.status(400).json({ message: 'Invalid or expired token' });
+        return res.status(400).json({ message: 'Invalid or expired token', status: 'error' });
     }
-
-    // Redirect to the frontend reset password form with the token
-    res.redirect(`http://localhost:3000/reset-password/${token}`);
+    return res.status(200).json({ message: 'Token verified successfully', status: 'success' });
 };
 
 // Reset password controller (POST request)
@@ -47,7 +45,8 @@ const resetPassword = async (req, res) => {
 
     const user = await User.findOne({ resetToken: token, resetTokenExpiry: { $gt: Date.now() } });
 
-    if (!user) {
+    if (!user || !token
+    ) {
         return res.status(400).json({ message: 'Invalid or expired token' });
     }
 
@@ -59,8 +58,26 @@ const resetPassword = async (req, res) => {
     res.status(200).json({ message: 'Password updated successfully' });
 };
 
+// Login controller
+const login = async (req, res) => {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    res.status(200).json({ message: 'Logged in successfully' });
+};
+
 module.exports = {
     forgotPassword,
     resetPassword,
-    verifyResetToken
+    verifyResetToken,
+    login
 };
