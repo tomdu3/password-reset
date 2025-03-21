@@ -3,7 +3,8 @@ const router = express.Router();
 const {
     forgotPassword,
     resetPassword,
-    verifyResetToken
+    verifyResetToken,
+    login
 } = require('../controllers/userControllers');
 
 // Forgot password route
@@ -14,5 +15,8 @@ router.post('/reset-password/:token', resetPassword);
 
 // Verify reset token and redirect to frontend (GET for link)
 router.get('/reset-password/:token', verifyResetToken);
+
+// Login Route
+router.post('/login', login);
 
 module.exports = router;
