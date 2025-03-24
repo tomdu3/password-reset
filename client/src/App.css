@@ -1,0 +1,131 @@
+/* App.css */
+:root {
+  --primary-color: #37517e;
+  --secondary-color: #47b2e4;
+  --footer-height: 60px;
+}
+
+/* Make footer stick to bottom */
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#main {
+  flex: 1;
+  padding-bottom: var(--footer-height);
+}
+
+/* Improved header styles */
+.header {
+  transition: all 0.5s;
+  background: #fff;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+}
+
+.header .logo {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  transition: all 0.3s;
+}
+
+.header .logo:hover {
+  color: var(--secondary-color);
+}
+
+.nav-link {
+  color: var(--primary-color);
+  font-weight: 500;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--secondary-color);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--secondary-color);
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Improved navbar toggle */
+.navbar-toggler {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+/* Footer styles */
+.footer {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+  height: var(--footer-height);
+  flex-shrink: 0;
+}
+
+.footer .copyright {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Responsive typography */
+h1 {
+  font-size: calc(1.5rem + 1.5vw);
+}
+
+@media (min-width: 1200px) {
+  h1 {
+    font-size: 3rem;
+  }
+}
+
+/* Hero section */
+.hero {
+  width: 100%;
+  min-height: 80vh;
+  background: var(--primary-color);
+  color: white;
+  padding-top: 80px;
+}
+
+.hero h2 {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 30px;
+  font-size: calc(1rem + 0.8vw);
+}
+
+/* Button styles */
+.btn-primary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #3a9ecf;
+  border-color: #3a9ecf;
+  transform: translateY(-2px);
+}
+
+.btn-outline-light:hover {
+  transform: translateY(-2px);
+}
