@@ -23,6 +23,7 @@ const ResetPassword = () => {
                 setIsValidToken(true);
             } catch (err) {
                 setIsValidToken(false);
+                addAlert('Invalid or expired reset token', 'danger');
                 setTimeout(() => {
                     navigate('/forgot-password');
                 }, 5000);
@@ -84,7 +85,7 @@ const ResetPassword = () => {
                     </div>
                     
                     {!isValidToken ? (
-                        <div className="text-center text-danger alert alert-danger">Invalid or expired reset token. Redirecting...</div>
+                        <div className="text-center text-danger">Redirecting...</div>
                     ) : (
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formPassword" className="mb-4">
