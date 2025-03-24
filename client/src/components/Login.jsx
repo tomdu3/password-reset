@@ -19,7 +19,6 @@ const Login = () => {
         setIsLoading(true);
         try {
             const res = await axios.post(`${HOST}/api/users/login`, { email, password });
-            localStorage.setItem('isAuthenticated', 'true');
             addAlert(res.data.message, 'success');
             navigate('/');
         } catch (err) {
