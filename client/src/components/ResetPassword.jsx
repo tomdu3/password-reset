@@ -22,8 +22,8 @@ const ResetPassword = () => {
                 await axios.get(`${HOST}/api/users/reset-password/${token}`);
                 setIsValidToken(true);
             } catch (err) {
-                addAlert(err.response?.data?.message || 'Invalid or expired reset token', 'danger');
-                setIsValidToken(false);
+                    addAlert(err.response?.data?.message || 'Invalid reset token', 'danger');
+                    setIsValidToken(false);
                 setTimeout(() => {
                     navigate('/forgot-password');
                 }, 5000);
@@ -78,7 +78,7 @@ const ResetPassword = () => {
                     </div>
                     
                     {!isValidToken ? (
-                        <div className="text-center text-danger">Invalid or expired reset token. Redirecting...</div>
+                        <div className="text-center text-danger">Redirecting ...</div>
                     ) : (
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formPassword" className="mb-4">

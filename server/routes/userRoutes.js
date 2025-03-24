@@ -10,11 +10,9 @@ const {
 // Forgot password route
 router.post('/forgot-password', forgotPassword);
 
-// Reset password route (POST for updating password)
+// Verify token and reset password routes
+router.get('/verify-token/:token', verifyResetToken);
 router.post('/reset-password/:token', resetPassword);
-
-// Verify reset token and redirect to frontend (GET for link)
-router.get('/reset-password/:token', verifyResetToken);
 
 // Login Route
 router.post('/login', login);

@@ -10,38 +10,40 @@ const HOST = import.meta.env.VITE_HOST;
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Added loading state
     const { addAlert } = useAlert();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
             const res = await axios.post(`${HOST}/api/users/login`, { email, password });
+            localStorage.setItem('isAuthenticated', 'true');
             addAlert(res.data.message, 'success');
+            navigate('/');
         } catch (err) {
             addAlert(err.response?.data?.message || 'An error occurred', 'danger');
+        } finally {
+            setIsLoading(false);
         }
-    };
-
-    const handleForgotPassword = () => {
-        navigate('/forgot-password');
     };
 
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 120px)' }}>
             <Card className="w-100" style={{ maxWidth: '400px' }}>
-                <Card.Body className="p-3 p-md-4">
-                    <div className="text-center mb-3">
-                        <FaSignInAlt size={40} className="text-primary mb-2" />
+                <Card.Body className="p-4">
+                    <div className="text-center mb-4">
+                        <FaSignInAlt size={40} className="text-primary mb-3" />
                         <h3 className="mb-2">Login</h3>
-                        <p className="text-muted small">Welcome back! Please enter your credentials.</p>
+                        <p className="text-muted">Welcome back! Please enter your credentials.</p>
                     </div>
                     
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formEmail" className="mb-3">
+                        <Form.Group className="mb-3">
                             <div className="input-group">
-                                <span className="input-group-text bg-white border-end-0">
-                                    <FaEnvelope className="text-primary" />
+                                <span className="input-group-text bg-light">
+                                    <FaEnvelope className="text-muted" />
                                 </span>
                                 <Form.Control
                                     type="email"
@@ -49,15 +51,15 @@ const Login = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
-                                    className="border-start-0"
+                                    autoFocus
                                 />
                             </div>
                         </Form.Group>
 
-                        <Form.Group controlId="formPassword" className="mb-3">
+                        <Form.Group className="mb-4">
                             <div className="input-group">
-                                <span className="input-group-text bg-white border-end-0">
-                                    <FaLock className="text-primary" />
+                                <span className="input-group-text bg-light">
+                                    <FaLock className="text-muted" />
                                 </span>
                                 <Form.Control
                                     type="password"
@@ -65,7 +67,6 @@ const Login = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
-                                    className="border-start-0"
                                 />
                             </div>
                         </Form.Group>
@@ -73,15 +74,16 @@ const Login = () => {
                         <Button 
                             variant="primary" 
                             type="submit" 
-                            className="w-100 py-2 fw-bold mb-2"
+                            className="w-100 mb-3 py-2"
+                            disabled={isLoading}
                         >
-                            Login
+                            {isLoading ? 'Signing In...' : 'Sign In'}
                         </Button>
 
                         <div className="text-center">
                             <Button 
                                 variant="link" 
-                                onClick={handleForgotPassword}
+                                onClick={() => navigate('/forgot-password')}
                                 className="text-decoration-none p-0"
                             >
                                 Forgot Password?
