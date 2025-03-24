@@ -40,15 +40,24 @@ const verifyResetToken = async (req, res) => {
 
 // Reset password controller (POST request)
 const resetPassword = async (req, res) => {
-    const { token } = req.params;
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Get token from Bearer
+    
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
+    }
+
     const { password } = req.body;
 
-    const user = await User.findOne({ resetToken: token, resetTokenExpiry: { $gt: Date.now() } });
+    const user = await User.findOne({ 
+        resetToken: token, 
+        resetTokenExpiry: { $gt: Date.now() } 
+    });
 
-    if (!user || !token
-    ) {
+    if (!user) {
         return res.status(400).json({ message: 'Invalid or expired token' });
     }
+
     // Check if the password is empty, less than 6 characters, not combination of letters, numbers and special characters
     if (!password || password.length < 6 || !password.match(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/)) {
         return res.status(400).json({ message: 'Password must be at least 6 characters long and contain a combination of letters, numbers, and special characters' });

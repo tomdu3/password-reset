@@ -11,7 +11,7 @@ const {
 router.post('/forgot-password', forgotPassword);
 
 // Reset password route (POST for updating password)
-router.post('/reset-password/:token', resetPassword);
+router.post('/reset-password', resetPassword); // Removed the :token parameter
 
 // Verify reset token and redirect to frontend (GET for link)
 router.get('/reset-password/:token', verifyResetToken);
