@@ -4,6 +4,16 @@
 
 A secure password reset system implementation using the MERN stack (MongoDB, Express.js, React.js, Node.js) with email verification functionality. This application provides a robust solution for users to safely reset their passwords through email verification.
 
+![Website Screenshot](./docs/amiresponsive.png)
+
+## Deployment
+
+- Frontend: [Netlify](https://www.netlify.com/)
+  - Live URL: [Password Reset App](https://password-reset2.netlify.app/)
+- Backend: [Render](https://render.com/)
+  - Live URL: [Password Reset API](https://password-reset-qi0a.onrender.com/)
+
+
 ## Diagram of the Project Workflow
 ```mermaid
 flowchart TD
@@ -50,7 +60,6 @@ flowchart TD
 - [Express.js](https://expressjs.com/)
 - [MongoDB](https://www.mongodb.com) (with [Mongoose](https://mongoosejs.com/) for ORM)
 - [Nodemailer](https://nodemailer.com/) for email services
-- [JWT](https://jwt.io/) for token management
 - [Crypto](https://nodejs.org/api/crypto.html) for token generation
 - [Bcrypt](https://www.npmjs.com/package/bcrypt) for password hashing
 
@@ -68,7 +77,7 @@ flowchart TD
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/password-reset
+git clone https://github.com/tomdu3/password-reset
 cd password-reset
 ```
 
@@ -83,7 +92,7 @@ npm install
 
 ```bash
 cd client
-npm install
+vite install
 ```
 
 4. **Environment Setup**
@@ -92,12 +101,10 @@ Create `.env` file in server directory:
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
 EMAIL_SERVICE=your_email_service
 EMAIL_USER=your_email
 EMAIL_PASS=your_email_password
 CLIENT_URL=http://localhost:3000
-PORT=5000
 ```
 
 ## 🚀 Running the Application
@@ -121,13 +128,12 @@ npm start
 ### Password Reset Flow
 
 - `POST /api/auth/forgot-password` - Initiate password reset
-- `POST /api/auth/reset-password` - Complete password reset
-- `GET /api/auth/verify-token` - Verify reset token
+- `GET /api/auth/reset-password` - Complete password reset
+
 
 ## 🔒 Security Features
 
 - Password hashing using bcrypt
-- JWT for secure token generation
 - Token expiration
 - Email verification
 - Input validation and sanitization
