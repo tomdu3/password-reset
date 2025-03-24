@@ -22,7 +22,7 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     // Log the token to the console instead of sending an email
-    console.log(`Password reset token for ${email}: ${token}`);
+    console.log(`link: ${process.env.CLIENT_URL}/reset-password/${token}`);
     res.status(200).json({ message: 'Reset token generated', token });
 };
 
