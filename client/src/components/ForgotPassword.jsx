@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Form, Alert, Container } from 'react-bootstrap';
+import { Container, Form, Alert, Button, Card } from 'react-bootstrap';
+import { FaLock, FaEnvelope } from 'react-icons/fa';
 
 // Import the HOST variable from environment variables
 const HOST = import.meta.env.VITE_HOST;
@@ -25,29 +26,48 @@ const ForgotPassword = () => {
     };
 
     return (
-        <Container className="mt-5">
-            <h2>Forgot Password</h2>            
-            {formSubmitted ? (
-                <Alert variant="success" className="mt-3">
-                    Reset token is generated and sent to {email}
-                </Alert>
-            ) : (
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="formEmail" className="mb-3">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Enter your email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Send Reset Link
-                    </Button>
-                </Form>)}
-            {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+            <Card className="w-100" style={{ maxWidth: '450px' }}>
+                <Card.Body className="p-4 p-md-5">
+                    <div className="text-center mb-4">
+                        <FaLock size={50} className="text-primary mb-3" />
+                        <h2 className="mb-3">Forgot Password?</h2>
+                        <p className="text-muted">You can reset your password here.</p>
+                    </div>
+                    
+                    {formSubmitted ? (
+                        <Alert variant="success" className="text-center">
+                            Reset token is generated and sent to {email}
+                        </Alert>
+                    ) : (
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Group controlId="formEmail" className="mb-4">
+                                <div className="input-group">
+                                    <span className="input-group-text bg-white border-end-0">
+                                        <FaEnvelope className="text-primary" />
+                                    </span>
+                                    <Form.Control
+                                        type="email"
+                                        placeholder="Email address"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        className="border-start-0"
+                                    />
+                                </div>
+                            </Form.Group>
+                            <Button 
+                                variant="primary" 
+                                type="submit" 
+                                className="w-100 py-2 fw-bold"
+                            >
+                                Send My Password
+                            </Button>
+                        </Form>
+                    )}
+                    {error && <Alert variant="danger" className="mt-3 text-center">{error}</Alert>}
+                </Card.Body>
+            </Card>
         </Container>
     );
 };
