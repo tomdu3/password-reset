@@ -23,7 +23,6 @@ const App = () => {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </main>
-
       <Footer />
     </Router>
   );

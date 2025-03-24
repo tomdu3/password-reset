@@ -4,7 +4,6 @@ import { Container, Form, Alert, Button, Card } from 'react-bootstrap';
 import { FaSignInAlt, FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-// Import the HOST variable from environment variables
 const HOST = import.meta.env.VITE_HOST;
 
 const Login = () => {
@@ -20,9 +19,6 @@ const Login = () => {
             const res = await axios.post(`${HOST}/api/users/login`, { email, password });
             setMessage(res.data.message);
             setError('');
-            // Redirect to a protected route or home page upon successful login
-            // For example:
-            // navigate('/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred');
             setMessage('');
@@ -34,17 +30,17 @@ const Login = () => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
-            <Card className="w-100" style={{ maxWidth: '450px' }}>
-                <Card.Body className="p-4 p-md-5">
-                    <div className="text-center mb-4">
-                        <FaSignInAlt size={50} className="text-primary mb-3" />
-                        <h2 className="mb-3">Login</h2>
-                        <p className="text-muted">Welcome back! Please enter your credentials.</p>
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 120px)' }}>
+            <Card className="w-100" style={{ maxWidth: '400px' }}>
+                <Card.Body className="p-3 p-md-4">
+                    <div className="text-center mb-3">
+                        <FaSignInAlt size={40} className="text-primary mb-2" />
+                        <h3 className="mb-2">Login</h3>
+                        <p className="text-muted small">Welcome back! Please enter your credentials.</p>
                     </div>
                     
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formEmail" className="mb-4">
+                        <Form.Group controlId="formEmail" className="mb-3">
                             <div className="input-group">
                                 <span className="input-group-text bg-white border-end-0">
                                     <FaEnvelope className="text-primary" />
@@ -60,7 +56,7 @@ const Login = () => {
                             </div>
                         </Form.Group>
 
-                        <Form.Group controlId="formPassword" className="mb-4">
+                        <Form.Group controlId="formPassword" className="mb-3">
                             <div className="input-group">
                                 <span className="input-group-text bg-white border-end-0">
                                     <FaLock className="text-primary" />
@@ -79,7 +75,7 @@ const Login = () => {
                         <Button 
                             variant="primary" 
                             type="submit" 
-                            className="w-100 py-2 fw-bold mb-3"
+                            className="w-100 py-2 fw-bold mb-2"
                         >
                             Login
                         </Button>
@@ -88,7 +84,7 @@ const Login = () => {
                             <Button 
                                 variant="link" 
                                 onClick={handleForgotPassword}
-                                className="text-decoration-none"
+                                className="text-decoration-none p-0"
                             >
                                 Forgot Password?
                             </Button>
