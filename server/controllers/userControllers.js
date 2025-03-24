@@ -49,6 +49,10 @@ const resetPassword = async (req, res) => {
     ) {
         return res.status(400).json({ message: 'Invalid or expired token' });
     }
+    // Check if the password is empty, less than 6 characters, not combination of letters, numbers and special characters
+    if (!password || password.length < 6 || !password.match(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/)) {
+        return res.status(400).json({ message: 'Password must be at least 6 characters long and contain a combination of letters, numbers, and special characters' });
+    }
 
     user.password = await bcrypt.hash(password, 12);
     user.resetToken = undefined;
