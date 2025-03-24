@@ -16,5 +16,10 @@ connectDB();
 // Routes
 app.use('/api/users', userRoutes);
 
+// Root endpoint
+app.get('/', (req, res) => {
+    res.send(`This is the API for the website on <a href="${process.env.CLIENT_URL}">${process.env.CLIENT_URL}</a>`);
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
