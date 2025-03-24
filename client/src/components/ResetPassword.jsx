@@ -36,14 +36,21 @@ const ResetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (password !== confirmPassword) {
             addAlert("Passwords do not match", 'danger');
             return;
         }
-
+    
         try {
-            const res = await axios.post(`${HOST}/api/users/reset-password/${token}`, { password });
+            const res = await axios.post(`${HOST}/api/users/reset-password`, 
+                { password }, 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
             addAlert(res.data.message, 'success');
             setTimeout(() => {
                 navigate('/login');
