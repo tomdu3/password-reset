@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const { sendResetEmail } = require('../utils/emailService');
+
 
 // Generate a random token
 const generateToken = () => {
@@ -22,9 +24,14 @@ const forgotPassword = async (req, res) => {
     user.resetTokenExpiry = Date.now() + 3600000; // 1 hour
     await user.save();
 
-    // Log the token to the console instead of sending an email
-    console.log(`link: ${process.env.CLIENT_URL}/reset-password/${token}`);
-    res.status(200).json({ message: 'Reset token generated', token });
+    try {
+        await sendResetEmail(user.email, token);
+        console.log(`link: ${process.env.CLIENT_URL}/reset-password/${token}`);
+        res.status(200).json({ message: 'Reset email sent successfully' });
+    } catch (error) {
+        console.error('Error sending reset email:', error);
+        res.status(500).json({ message: 'Failed to send reset email' });
+    }
 };
 
 
