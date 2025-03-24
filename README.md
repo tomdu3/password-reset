@@ -145,9 +145,9 @@ password-reset/
 ├── client/
 │   ├── public/
 │   ├── src/
+│   │   ├── assets/
 │   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/
+│   │   ├── context/
 │   │   └── App.js
 │   └── package.json
 └── server/
@@ -176,7 +176,13 @@ password-reset/
 - Reset tokens expire after 1 hour
 - Passwords are hashed before storage
 - Email verification required
-- Protected routes implementation
+- Input validation and sanitization implemented
+
+### Email Integration
+
+- Nodemailer used for email services
+- Email templates for password reset
+- Email service credentials stored securely
 
 ## 💻 Deployment
 
@@ -184,8 +190,8 @@ password-reset/
 
 1. Connect to GitHub repository
 2. Build settings:
-   - Build command: `npm run build`
-   - Publish directory: `build/`
+   - Build command: `vite build`
+   - Publish directory: `dist/`
 
 ### Backend Deployment (Render)
 
