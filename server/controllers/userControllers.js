@@ -10,6 +10,7 @@ const generateToken = () => {
 // Forgot password controller
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
+
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -26,19 +27,31 @@ const forgotPassword = async (req, res) => {
     res.status(200).json({ message: 'Reset token generated', token });
 };
 
-// Verify reset token (GET request)
+
+// Token verification function
 const verifyResetToken = async (req, res) => {
     const { token } = req.params;
 
-    const user = await User.findOne({ resetToken: token, resetTokenExpiry: { $gt: Date.now() } });
+    const user = await User.findOne({
+        resetToken: token,
+        resetTokenExpiry: { $gt: Date.now() }
+    });
 
     if (!user) {
-        return res.status(400).json({ message: 'Invalid or expired token', status: 'error' });
+        return res.status(400).json({ 
+            message: 'Invalid or expired token',
+            valid: false
+        });
     }
-    return res.status(200).json({ message: 'Token verified successfully', status: 'success' });
+
+    return res.status(200).json({ 
+        message: 'Token is valid',
+        valid: true,
+        email: user.email
+    });
 };
 
-// Reset password controller (POST request)
+// Simplified reset password function
 const resetPassword = async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]; // Get token from Bearer
@@ -68,12 +81,16 @@ const resetPassword = async (req, res) => {
     user.resetTokenExpiry = undefined;
     await user.save();
 
-    res.status(200).json({ message: 'Password updated successfully' });
+    return res.status(200).json({ 
+        message: 'Password updated successfully',
+        status: 'success'
+    });
 };
 
 // Login controller
 const login = async (req, res) => {
     const { email, password } = req.body;
+
     const user = await User.findOne({ email });
 
     if (!user) {
