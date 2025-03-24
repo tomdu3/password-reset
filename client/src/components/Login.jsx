@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Form, Alert, Button, Card } from 'react-bootstrap';
+import { Container, Form, Button, Card } from 'react-bootstrap';
 import { FaSignInAlt, FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useAlert } from '../context/AlertContext';
 
 const HOST = import.meta.env.VITE_HOST;
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const { addAlert } = useAlert();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const res = await axios.post(`${HOST}/api/users/login`, { email, password });
-            setMessage(res.data.message);
-            setError('');
+            addAlert(res.data.message, 'success');
         } catch (err) {
-            setError(err.response?.data?.message || 'An error occurred');
-            setMessage('');
+            addAlert(err.response?.data?.message || 'An error occurred', 'danger');
         }
     };
 
@@ -90,9 +88,6 @@ const Login = () => {
                             </Button>
                         </div>
                     </Form>
-
-                    {message && <Alert variant="success" className="mt-3 text-center">{message}</Alert>}
-                    {error && <Alert variant="danger" className="mt-3 text-center">{error}</Alert>}
                 </Card.Body>
             </Card>
         </Container>

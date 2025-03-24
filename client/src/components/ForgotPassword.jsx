@@ -1,27 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Form, Alert, Button, Card } from 'react-bootstrap';
+import { Container, Form, Button, Card } from 'react-bootstrap';
 import { FaLock, FaEnvelope } from 'react-icons/fa';
+import { useAlert } from '../context/AlertContext';
 
-// Import the HOST variable from environment variables
 const HOST = import.meta.env.VITE_HOST;
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const { addAlert } = useAlert();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const res = await axios.post(`${HOST}/api/users/forgot-password`, { email });
-            setMessage(res.data.message);
-            setError('');
+            addAlert(res.data.message, 'success');
             setFormSubmitted(true);
         } catch (err) {
-            setError(err.response?.data?.message || 'An error occurred');
-            setMessage('');
+            addAlert(err.response?.data?.message || 'An error occurred', 'danger');
         }
     };
 
@@ -36,9 +33,9 @@ const ForgotPassword = () => {
                     </div>
                     
                     {formSubmitted ? (
-                        <Alert variant="success" className="text-center">
-                            Reset token is generated and sent to {email}
-                        </Alert>
+                        <div className="text-center">
+                            <p className="text-success">Reset token is generated and sent to {email}</p>
+                        </div>
                     ) : (
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formEmail" className="mb-4">
@@ -61,11 +58,10 @@ const ForgotPassword = () => {
                                 type="submit" 
                                 className="w-100 py-2 fw-bold"
                             >
-                                Send My Password
+                                Send Reset Link
                             </Button>
                         </Form>
                     )}
-                    {error && <Alert variant="danger" className="mt-3 text-center">{error}</Alert>}
                 </Card.Body>
             </Card>
         </Container>
