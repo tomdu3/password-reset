@@ -2,13 +2,16 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
 import { useAuth } from '../context/AuthContext';
+import { useAlert } from '../context/AlertContext';
 
 const Header = () => {
   const { isLoggedIn, logout } = useAuth();
+  const { addAlert } = useAlert();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+    addAlert('User logged out', 'success');
     navigate('/login');
   };
 
