@@ -32,4 +32,27 @@ const sendResetEmail = async (email, token) => {
   }
 };
 
-module.exports = { sendResetEmail };
+const sendSignUpEmail = async (email, username) => {
+  const mailOptions = {
+    from: process.env.EMAIL_FROM,
+    to: email,
+    subject: 'Registration Successful',
+    html: `
+      <p>Congratulations, ${username}! Your account has been successfully created.</p>
+      <p>You can now log in to your account.</p>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Signup email sent to ${email}`);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw new Error('Failed to send signup email');
+  }
+};
+
+module.exports = {
+  sendSignUpEmail,
+  sendResetEmail
+};
