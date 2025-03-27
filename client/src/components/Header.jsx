@@ -26,9 +26,12 @@ const Header = () => {
               <Nav.Link as={Link} to='/login' className='nav-link'>
                 Login
               </Nav.Link>
-              <Nav.Link as={Link} to='/forgot-password' className='nav-link'>
-                Forgot Password
+              <Nav.Link as={Link} to='/signup' className='nav-link'>
+                Signup
               </Nav.Link>
+              {/* <Nav.Link as={Link} to='/forgot-password' className='nav-link'>
+                Forgot Password
+              </Nav.Link> */}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
