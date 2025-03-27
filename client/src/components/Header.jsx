@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Navbar, Nav } from "react-bootstrap";
+import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
+  const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header id='header' className='header'>
@@ -23,15 +30,20 @@ const Header = () => {
               <Nav.Link as={Link} to='/' className='nav-link'>
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to='/login' className='nav-link'>
-                Login
-              </Nav.Link>
-              <Nav.Link as={Link} to='/signup' className='nav-link'>
-                Signup
-              </Nav.Link>
-              {/* <Nav.Link as={Link} to='/forgot-password' className='nav-link'>
-                Forgot Password
-              </Nav.Link> */}
+              {!isLoggedIn ? (
+                <>
+                  <Nav.Link as={Link} to='/login' className='nav-link'>
+                    Login
+                  </Nav.Link>
+                  <Nav.Link as={Link} to='/signup' className='nav-link'>
+                    Signup
+                  </Nav.Link>
+                </>
+              ) : (
+                <Nav.Link onClick={handleLogout} className='nav-link'>
+                  Logout
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Navbar>

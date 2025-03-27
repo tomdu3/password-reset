@@ -4,14 +4,16 @@ import { Container, Form, Button, Card } from 'react-bootstrap';
 import { FaSignInAlt, FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from '../context/AlertContext';
+import { useAuth } from '../context/AuthContext';
 
 const HOST = import.meta.env.VITE_HOST;
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false); // Added loading state
+    const [isLoading, setIsLoading] = useState(false);
     const { addAlert } = useAlert();
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -20,6 +22,7 @@ const Login = () => {
         try {
             const res = await axios.post(`${HOST}/api/users/login`, { email, password });
             addAlert(res.data.message, 'success');
+            login(email);
             navigate('/');
         } catch (err) {
             addAlert(err.response?.data?.message || 'An error occurred', 'danger');
