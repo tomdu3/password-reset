@@ -1,7 +1,10 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const { sendResetEmail } = require('../utils/emailService');
+const {
+    sendSignUpEmail,
+    sendResetEmail
+} = require('../utils/emailService');
 
 
 // Generate a random token
@@ -112,9 +115,35 @@ const login = async (req, res) => {
     res.status(200).json({ message: 'Logged in successfully' });
 };
 
+// Signup controller
+const signup = async (req, res) => {
+    const { username, email, password } = req.body;
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        return res.status(400).json({ message: 'User already exists' });
+    }
+    
+    if (!password || password.length < 6 || !password.match(/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/)) {
+        return res.status(400).json({ message: 'Password must be at least 6 characters long and contain a combination of letters, numbers, and special characters' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    try {
+        const user = new User({ username, email, password: hashedPassword });
+        await user.save();
+        await sendSignUpEmail(user.email, user.username);
+        res.status(201).json({ message: 'User created successfully' });
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).json({ message: 'Failed to create user' });
+    }
+};
+
+
 module.exports = {
     forgotPassword,
     resetPassword,
     verifyResetToken,
-    login
+    login,
+    signup,
 };

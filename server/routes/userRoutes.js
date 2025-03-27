@@ -4,7 +4,8 @@ const {
     forgotPassword,
     resetPassword,
     verifyResetToken,
-    login
+    login,
+    signup,
 } = require('../controllers/userControllers');
 
 // Forgot password route
@@ -18,5 +19,8 @@ router.get('/reset-password/:token', verifyResetToken);
 
 // Login Route
 router.post('/login', login);
+
+// Signup Route
+router.post('/signup', signup);
 
 module.exports = router;
